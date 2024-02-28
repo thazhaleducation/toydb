@@ -1,15 +1,19 @@
-from store import data_type
+from store import datatype
 import pytest
 
 def test_datatype_returns_int():
-  assert data_type.get_datatype("INT") == data_type.INT
-  assert data_type.get_datatype("int") == data_type.INT
+  assert datatype.get_datatype("INT") == datatype.INT
+  assert datatype.get_datatype("int") == datatype.INT
 
 def test_datatype_returns_char():
-  assert data_type.get_datatype("CHAR") == data_type.CHAR
-  assert data_type.get_datatype("char") == data_type.CHAR
+  assert datatype.get_datatype("CHAR") == datatype.CHAR
+  assert datatype.get_datatype("char") == datatype.CHAR
+
+def test_datatype_returns_no_of_bits():
+  assert datatype.INT.no_of_bits() == 32
+  assert datatype.CHAR.no_of_bits() == 8
 
 def test_datatype_raise_exception_for_unknown_datatype():
   with pytest.raises(Exception) as e:
-    data_type.get_datatype("INTEGER")
+    datatype.get_datatype("INTEGER")
   assert 'Exception unsupported datatypeINTEGER' == str(e.value)

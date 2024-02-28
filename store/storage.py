@@ -18,10 +18,10 @@ def select(**criteria):
 def create_data_file():
   pass
 
-def create_table():
+def create_table(db, table_name, **column_details):
   pass
-
-def create_schema(name, **kwargs):
+  
+def create_schema(name: str, **kwargs: dict) -> int:
   # decide on datadir - for testing purpose
   data_dir = kwargs.get('data_dir', DEFAULT_DATA_DIR)
   db_folder = os.path.join(data_dir, name)
@@ -41,7 +41,7 @@ def create_schema(name, **kwargs):
     f.writelines(name+"|")
   return 0
   
-def _is_db_entry_present(db_name):
+def _is_db_entry_present(db_name: str) -> bool:
   schemata_path = os.path.join(DEFAULT_DATA_DIR, SCHEMATA_PATH)
   with open(schemata_path) as f:
     return db_name in f.readline().split("|")

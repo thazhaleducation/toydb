@@ -1,21 +1,18 @@
-from enum import Enum
-
-
 class Datatype():
-  def __init__(self, name, length):
+  def __init__(self, name: str, length: int):
     self.name = name
     self.length = length
 
-  def name(self):
+  def name(self) -> str:
     return self.name
   
-  def length(self):
+  def no_of_bits(self) -> str:
     return self.length
-  
-INT = Datatype("INT", 4)
-CHAR = Datatype("CHAR", 1)
 
-def get_datatype(typeStr):
+INT = Datatype("INT", 32)
+CHAR = Datatype("CHAR", 8)
+
+def get_datatype(typeStr: str) -> Datatype:
   if typeStr.upper() == "INT":
     return INT
   elif typeStr.upper() == "CHAR":
