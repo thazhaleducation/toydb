@@ -1,7 +1,5 @@
 import os
-
-DEFAULT_DATA_DIR="./datadir"
-SCHEMATA_PATH="sys/schemata.csv"
+from .context import Context
 
 def insert(data):
   pass
@@ -21,13 +19,12 @@ def create_data_file():
 def create_table(db, table_name, **column_details):
   pass
   
-def create_schema(name: str, **kwargs: dict) -> int:
+def create_schema(name: str, context:Context = Context(), **kwargs: dict) -> int:
   # decide on datadir - for testing purpose
-  data_dir = kwargs.get('data_dir', DEFAULT_DATA_DIR)
-  db_folder = os.path.join(data_dir, name)
+  db_folder = os.path.join(context.get_data_dir(), name)
   
   # Check the schemata entry
-  if _is_db_entry_present(name):
+  if _is_db_entry_present(name, context):
     raise Exception("db entry already present")
 
   # check if a directory already exists
@@ -36,12 +33,10 @@ def create_schema(name: str, **kwargs: dict) -> int:
 
   # Create db folder and entry in schemata
   os.makedirs(name=db_folder)
-  schemata_path = os.path.join(DEFAULT_DATA_DIR, SCHEMATA_PATH)
-  with open(schemata_path, "a") as f:
+  with open(context.get_schemata_path(), "a") as f:
     f.writelines(name+"|")
   return 0
   
-def _is_db_entry_present(db_name: str) -> bool:
-  schemata_path = os.path.join(DEFAULT_DATA_DIR, SCHEMATA_PATH)
-  with open(schemata_path) as f:
+def _is_db_entry_present(db_name: str, context: Context) -> bool:
+  with open(context.get_schemata_path()) as f:
     return db_name in f.readline().split("|")
